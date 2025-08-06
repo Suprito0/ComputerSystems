@@ -15,4 +15,7 @@ CHIP Or {
 
     PARTS:
     // Put your code here:
+    Nand(a=a, b=a, out = na);
+    Nand(a=b, b=b, out=nb);
+    Nand(a=na, b=nb, out=out);
 }
