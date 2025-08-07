@@ -1,4 +1,4 @@
-// This file is part of www.nand2tetris.org
+b// This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/01/Mux4Way16.hdl
@@ -17,4 +17,29 @@ CHIP Mux4Way16 {
 
     PARTS:
     // Put your code here:
+    Not(in=sel[0], out=nsel0);
+    Not(in=sel[1], out=nsel1);
+
+    Or8Way(in={a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]}, out=aout1);
+    Or8Way(in={a[8],a[9],a[10],a[11],a[12],a[13],a[14],a[15]}, out=aout2);
+    Or(a=aout1, b=aout2, out=ifa);
+
+    Or8Way(in={b[0],b[1],b[2],b[3],b[4],b[5],b[6],b[7]}, out=bout1);
+    Or8Way(in={b[8],b[9],b[10],b[11],b[12],b[13],b[14],b[15]}, out=bout2);
+    Or(a=bout1, b=bout2, out=ifb);
+
+    Or8Way(in={c[0],c[1],c[2],c[3],c[4],c[5],c[6],c[7]}, out=cout1);
+    Or8Way(in={c[8],c[9],c[10],c[11],c[12],c[13],c[14],c[15]}, out=cout2);
+    Or(a=cout1, b=cout2, out=ifc);
+
+    Or8Way(in={d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]}, out=dout1);
+    Or8Way(in={d[8],d[9],d[10],d[11],d[12],d[13],d[14],d[15]}, out=dout2);
+    Or(a=dout1, b=dout2, out=ifd);
+
+    And(a=nsel0, b=nsel1, out=asel);
+    And(a=sel[0], b=nsel1, out=bsel);
+    And(a=nsel0, b=nsel[1], out=csel);
+    And(a=sel[0], b=nsel[1], out=dsel);
+
+    
 }
