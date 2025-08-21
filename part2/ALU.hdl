@@ -90,28 +90,11 @@ CHIP ALU {
 
     Not16(in=fout, out=nfout);
 
-    Mux16(a=fout, b=nfout, sel=no, out=out);
+    Mux16(a=fout, b=nfout, sel=no, out=out, out[0..7]=out0to7, out[8..15]=out8to15, out[15]=ng);
 
-    // Or8Way(in[0]=out[0],
-    //        in[1]=out[1],
-    //        in[2]=out[2],
-    //        in[3]=out[3],
-    //        in[4]=out[4],
-    //        in[5]=out[5],
-    //        in[6]=out[6],
-    //        in[7]=out[7],
-    //         out=zrout0);
-    // Or8Way(in[0]=out[8],
-    //        in[1]=out[9],
-    //        in[2]=out[10],
-    //        in[3]=out[11],
-    //        in[4]=out[12],
-    //        in[5]=out[13],
-    //        in[6]=out[14],
-    //        in[7]=out[15],
-    //         out=zrout1);
-    // Or(a=zrout0, b=zrout1, out=nzr);
-    // Not(in=nzr, out=zr);
+    Or8Way(in=out0to7,out=zrout0);
+    Or8Way(in=out8to15,out=zrout1);
+    Or(a=zrout0, b=zrout1, out=nzr);
+    Not(in=nzr, out=zr);
     
-    // ng = out[15];
 }
