@@ -28,4 +28,12 @@ CHIP Jump {
 
 PARTS:
     // Put your code here:
+    And(a=j1, b=ng, out=j1Jump);
+    And(a=j2, b=zr, out=j2Jump);
+    Not(in=ng, out=nng);
+    Not(in=zr, out=nzr);
+    And(a=nng, b=nzr, out=j3l);
+    And(a=j3, b=j3l, out=j3Jump);
+    Or(a=j1Jump, b=j2Jump, out=j12Jump);
+    Or(a=j12Jump, b=j3Jump, out=jump);
 }
