@@ -14,6 +14,12 @@ D=A
 @R0
 M=D
 
+@R1
+D=M
+
+@END
+D;JEQ
+
 @R2
 D=M
 
@@ -23,29 +29,26 @@ D;JEQ
 @R1
 D=M
 
-@END
-D;JEQ
-
 @R3
 M=D
 
 (LOOP)
-@R2
-D=M
+    @R2
+    D=M
 
-@R0
-M=M+D
+    @R0
+    M=M+D
 
-@R3
-M=M-1
-D=M
+    @R3
+    M=M-1
+    D=M
 
-@END
-D;JEQ
+    @END
+    D;JEQ
 
-@LOOP
-0;JMP
+    @LOOP
+    0;JMP
 
 (END)
-@END
-0;JMP
+    @END
+    0;JMP
