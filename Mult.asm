@@ -10,11 +10,21 @@
 
 @0
 D=A
+
 @R0
 M=D
 
+@R2
+D=M
+
+@END
+D;JEQ
+
 @R1
 D=M
+
+@END
+D;JEQ
 
 @R3
 M=D
