@@ -2,10 +2,15 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
+@R2
+D=M
+
+@END
+D;JEQ
+
 (STORE)
 @R1
 A=M //get value in R1
-
 D=M //get first value in array
 
 @R0
@@ -15,7 +20,6 @@ M=D //store in R0
 M=M-1
 
 (LOOP)
-
 @R2
 D=M;
 
@@ -24,8 +28,8 @@ D;JEQ
 
 @R1
 M=M+1
-A=M     //get next array value location
 
+A=M     //get next array value location
 D=M  //get that array's value
 
 @R0
