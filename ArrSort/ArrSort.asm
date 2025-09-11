@@ -3,6 +3,10 @@
 
 // Put your code here.
 @R2
+D=M
+@TRUE
+D;JEQ
+@R2
 M=M+1 
 
 (LOOPO)
