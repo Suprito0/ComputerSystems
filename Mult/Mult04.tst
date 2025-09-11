@@ -7,7 +7,7 @@ set PC 0,
 set RAM[0] 0,
 set RAM[1] 7,
 set RAM[2] -4000;
-repeat 100 {
+repeat 200 {
   ticktock;
 }
 set RAM[1] 7,
