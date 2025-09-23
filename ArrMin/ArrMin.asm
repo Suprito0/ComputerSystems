@@ -3,13 +3,12 @@
 
 // Put your code here.
 
-// Edge-case guard: empty or non-positive length
 @R2
 D=M
-@END_EMPTY
-D;JLE
+@END
+D;JLE          // if R2 <= 0, do nothing (leave R0 unchanged) and halt
 
-(STORE)                 // initial seed of min from first element
+(STORE)
 @R1
 A=M //get value in R1
 D=M //get first value in array
@@ -18,17 +17,17 @@ D=M //get first value in array
 M=D //store in R0
 
 @R1
-M=M+1           // advance to the second element
+M=M+1          // move to second element
 
 @R2
-M=M-1           
+M=M-1          // consumed one element (the first)
 
 (LOOP)
 @R2
 D=M;
 
 @END
-D;JEQ
+D;JEQ          // done once we've checked all elements
 
 @R1
 A=M  //get next array value location
@@ -38,9 +37,9 @@ D=M  //get that array's value
 D=D-M //compare with stored
 
 @NO_UPDATE
-D;JGE           // if current >= stored, skip update
+D;JGE          // if current >= stored, skip update
 
-// --- Update min without touching R2 here ---
+// update stored min = current (don’t touch R2 here)
 @R1
 A=M
 D=M
@@ -58,11 +57,5 @@ M=M-1
 0;JMP
 
 (END)
-@END
-0;JMP
-
-(END_EMPTY)             // --- Define behavior for empty array ---
-@R0
-M=0                     // choose 0 for "no minimum"
 @END
 0;JMP
