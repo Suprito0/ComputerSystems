@@ -1,0 +1,22 @@
+// Calculates y = |x|
+// x & y are static variables
+
+push static 0
+push constant 0
+lt
+if-goto ABS_NEG
+
+// y = x
+push static 0
+pop static 1
+goto ABS_DONE
+
+label ABS_NEG
+push static 0
+neg
+pop static 1
+
+label ABS_DONE
+
+label END
+goto END
