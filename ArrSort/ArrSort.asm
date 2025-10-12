@@ -4,108 +4,101 @@
 
 
 // Put your code here.
-
 @R2
-D=M
-@TRUE
-D;JLE
-
-@R2
-D=M
-@passLen
-M=D
-@passLen
-M=M-1
+M=M+1 
 
 (LOOPO)
-@passLen
-D=M
-@TRUE
-D;JLT          // when passLen < 0, all passes done
-@R2
-D=M //assiging the length of array to D          
+    @R2
+    M=M-1
+    D=M //assiging the length of array to D
 
-@count
-M=D  // assigning the length of array to the variable count   
-@count
-M=M-1              // we only compare pairs, so count = R2 - 1 for inner loop
+    @count
+    M=D  // assigning the length of array to the variable count
 
-@R1
-D=M // assigning the index of array to D                       
+    @R1
+    D=M // assigning the index of array to D
 
-@index
-M=D // assigning the index of array to the variable index      
+    @index
+    M=D // assigning the index of array to the variable index
 
-(LOOPI)
-@count
-D=M
-@AFTER_INNER
-D;JLT              // when count < 0, inner loop finished
+    (LOOPI)
+        @index
+        D=M
+        A=D // @index
+        D=M // assigning value of array to D
 
-@index
-D=M
-A=D // @index                                            
-D=M // assigning value of array to D                      
+        A=A+1   //@ next index
+        D=D-M   // compare the two index
 
-A=A+1   //@ next index                                   
-D=D-M   // compare the two index                          
+        @SWITCH
+        D;JGT   //if >0 jump
 
-@SWITCH
-D;JGT   //if >0 jump                                      
+        @index
+        M=M+1
 
-@index
-M=M+1
+        @count
+        M=M-1
+        D=M
 
-@count
-M=M-1
-D=M
+        @LOOPO
+        D-1;JEQ
 
-@LOOPI
-0;JMP
+        @R2
+        D=M
+
+        @TRUE
+        D-1;JEQ
+
+        @LOOPI
+        0;JMP
 
 (SWITCH)
-@index
-D=M     //get index                                           
+    @index
+    D=M     //get index
 
-A=D  // go to index                                           
-D=M //store specific value                                    
+    A=D  // go to index
+    D=M //store specific value
 
-@temp  
-M=D  //store the value in the variable temp                   
+    @temp  
+    M=D  //store the value in the variable temp
 
-@index 
-A=M+1   //go to address of the next index                     
-D=M     //store value of that index                           
+    @index 
+    A=M+1   //go to address of the next index
+    D=M     //store value of that index
 
-@index
-A=M     // go to the original index                           
-M=D     //assign the next index here                          
+    @index
+    A=M     // go to the original index
+    M=D     //assign the next index here
 
-@temp   
-D=M     // go to temp to get the value of the original index  
+    @temp   
+    D=M     // go to temp to get the value of the original index
 
-@index
-M=M+1   // increment index                                    
+    @index
+    M=M+1   // increment index
 
-A=M     // go to that address                                 
-M=D     // set the value of the original index here       
+    A=M     // go to that address
+    M=D     // set the value of the original index here 
+            //switching complete
 
-@count
-M=M-1
-D=M
+    @count
+    M=M-1
+    D=M
 
-@LOOPI
-0;JMP
+    @LOOPO
+    D-1;JEQ
 
-(AFTER_INNER)
-@passLen
-M=M-1
-@LOOPO
-0;JMP
+    @R2
+    D=M
+
+    @TRUE
+    D-1;JEQ
+
+    @LOOPI
+    0;JMP
 
 (TRUE)
 @R0
-M=-1          // M=!A (original) could be brittle; set True (-1) directly
+M=!A
 
 (END)
 @END
