@@ -34,7 +34,5 @@ pop local 3
 // repeat
 goto MULT_LOOP
 
-push con
-
 label END
 goto END
