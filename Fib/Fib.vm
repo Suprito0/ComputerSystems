@@ -1,45 +1,43 @@
-// Contains a function Fib.fib that calculates and returns the nth Fibonacci number recursively
-// n is supplied as an argument
+// File: Fib.vm
+// Computes the n-th Fibonacci number recursively
+// Function: Fib.fib(n)
+// Base cases:
+//   Fib.fib(0) = 0
+//   Fib.fib(1) = 1
+// Recursive case:
+//   Fib.fib(n) = Fib.fib(n-1) + Fib.fib(n-2)
 
-// Fib.vm
-
-// Function to calculate Fib.fib(n) recursively
 function Fib.fib 0
-  // Base case: if n == 0, return 0
-  push constant 0
-  return
 
-function Fib.fib 1
-  // Base case: if n == 1, return 1
-  push constant 1
-  return
+// if n < 2, return n
+push argument 0
+push constant 2
+lt
+if-goto IF_TRUE
+goto IF_FALSE
 
-function Fib.fib 2
-  // Recursive case: if n > 1, calculate Fib.fib(n-1) + Fib.fib(n-2)
-  
-  // Store n in the local variable 0 (so we can modify it)
-  push argument 0
-  pop local 0
+label IF_TRUE
+push argument 0
+return
 
-  // Calculate Fib.fib(n-1)
-  push local 0
-  push constant 1
-  subtract
-  call Fib.fib 1  // call Fib.fib(n-1)
+label IF_FALSE
+// Compute Fib.fib(n-1)
+push argument 0
+push constant 1
+sub
+call Fib.fib 1
 
-  // Store the result of Fib.fib(n-1) in temp 0
-  pop temp 0
+// Save Fib.fib(n-1) in temp 0
+pop temp 0
 
-  // Calculate Fib.fib(n-2)
-  push local 0
-  push constant 2
-  subtract
-  call Fib.fib 1  // call Fib.fib(n-2)
+// Compute Fib.fib(n-2)
+push argument 0
+push constant 2
+sub
+call Fib.fib 1
 
-  // Add Fib.fib(n-1) and Fib.fib(n-2)
-  pop temp 1
-  push temp 0
-  add
+// Add Fib.fib(n-1) + Fib.fib(n-2)
+push temp 0
+add
 
-  // Return the result
-  return
+return
