@@ -3,6 +3,37 @@
 // x & y are static variables
 // Put your code here.
 
+
+push static 0
+pop local 4
+
+push static 1
+pop local 5
+
+push static 0
+push constant 0
+lt 
+if-goto XNEG
+
+label CHECKYNEG
+push static 1
+push constant 0
+lt 
+if-goto YNEG
+goto START
+
+label XNEG
+push static 0
+neg
+pop static 0
+goto CHECKYNEG
+
+label YNEG
+push static 1
+neg
+pop static 1
+
+label START
 push constant 0
 pop local 0
 
@@ -14,13 +45,7 @@ push local 3
 push constant 0
 gt
 if-goto MULT
-
-push local 3
-push constant 0
-eq
-
-if-goto END
-goto END
+goto FINISH
 
 label MULT
 push local 0
@@ -35,5 +60,35 @@ pop local 3
 goto CHECK
 
 if-goto MULT
+
+label FINISH
+push local 4
+pop static 0
+
+push constant 0
+pop local 4
+
+push local 5
+pop static 1
+
+push constant 0
+pop local 5
+
+push constant 0
+push static 0
+lt
+if-goto NEGY
+push local 0 
+neg
+pop local 0
+label NEGY
+push constant 0 
+push static 1
+lt
+if-goto END
+push local 0 
+neg
+pop local 0
+
 label END
 goto END
