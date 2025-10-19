@@ -8,13 +8,13 @@ pop local 0     // local 0 represents 'a'
 
 // create a counter = y
 push static 1    // y
-pop local 1      // local 1 will act as 'counter'
+pop local 3      // local 3 will act as 'counter'
 
 // label for loop
 label MULT_LOOP
 
 // if counter == 0, end loop
-push local 1
+push local 3
 push constant 0
 eq
 if-goto END
@@ -26,10 +26,10 @@ add
 pop local 0
 
 // counter = counter - 1
-push local 1
+push local 3
 push constant 1
 sub
-pop local 1
+pop local 3
 
 // repeat
 goto MULT_LOOP

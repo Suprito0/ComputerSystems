@@ -1,38 +1,34 @@
-// Calculates a = x * y
-// a is a local variable
-// x and y are static variables
+// Sample Test file for Mult.asm
+// Follows the Test Scripting Language format described in 
+// Appendix B of the book "The Elements of Computing Systems"
 
-// initialize a = 0
-push constant 0
-pop local 0     // local 0 represents 'a'
+load Mult.vm,
+output-file Mult00.out,
+compare-to Mult00.cmp,
+output-list sp%D1.6.1 local%D1.6.1 argument%D1.8.1 this%D1.6.1 that%D1.6.1
+            RAM[16]%D1.6.1 RAM[17]%D1.6.1 RAM[18]%D1.6.1
+            local[0]%D1.8.1 local[1]%D1.8.1 local[2]%D1.8.1
+            argument[0]%D1.11.1 argument[1]%D1.11.1 argument[2]%D1.11.1;
 
-// create a counter = y
-push static 1    // y
-pop local 1      // local 1 will act as 'counter'
+set sp 256,        // stack pointer
+set local 300,     // base address of the local segment
+set argument 400,  // base address of the argument segment
+set this 3000,     // base address of the this segment
+set that 3010,     // base address of the that segment
 
-// label for loop
-label MULT_LOOP
+set RAM[16] 3,   // static 0
+set RAM[17] 10,  // static 1
+set RAM[18] 0,   // static 2
 
-// if counter == 0, end loop
-push local 1
-push constant 0
-eq
-if-goto END
+set local[0] 1,  // local 0
+set local[1] 2,  // local 1
+set local[2] 3,  // local 2
 
-// a = a + x
-push local 0
-push static 0    // x
-add
-pop local 0
+set argument[0] 100,  // argument 0
+set argument[1] 200,  // argument 1
+set argument[2] 300;  // argument 2
 
-// counter = counter - 1
-push local 1
-push constant 1
-sub
-pop local 1
-
-// repeat
-goto MULT_LOOP
-
-label END
-// program halts here (no goto END)
+repeat 300 {        // Change this number to cover the number of instructions in the VM test file
+  vmstep;
+}
+output;
