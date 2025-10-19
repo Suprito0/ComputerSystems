@@ -1,6 +1,5 @@
 // File: Fib.vm
-// Computes the n-th Fibonacci number recursively
-// Function: Fib.fib(n)
+// Recursive Fibonacci: Fib.fib(n)
 // Base cases:
 //   Fib.fib(0) = 0
 //   Fib.fib(1) = 1
@@ -8,36 +7,26 @@
 //   Fib.fib(n) = Fib.fib(n-1) + Fib.fib(n-2)
 
 function Fib.fib 0
-
 // if n < 2, return n
 push argument 0
 push constant 2
 lt
-if-goto IF_TRUE
-goto IF_FALSE
+if-goto BASE_CASE
+goto RECURSE
 
-label IF_TRUE
+label BASE_CASE
 push argument 0
 return
 
-label IF_FALSE
-// Compute Fib.fib(n-1)
+label RECURSE
+// Save n temporarily
 push argument 0
 push constant 1
 sub
-call Fib.fib 1
-
-// Save Fib.fib(n-1) in temp 0
-pop temp 0
-
-// Compute Fib.fib(n-2)
+call Fib.fib 1     // Fib.fib(n-1)
 push argument 0
 push constant 2
 sub
-call Fib.fib 1
-
-// Add Fib.fib(n-1) + Fib.fib(n-2)
-push temp 0
+call Fib.fib 1     // Fib.fib(n-2)
 add
-
 return
