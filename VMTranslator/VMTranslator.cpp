@@ -1,7 +1,6 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-
 #include "VMTranslator.h"
 
 using namespace std;
@@ -9,14 +8,12 @@ using namespace std;
 static int label_count = 0;
 static string current_function = "GLOBAL";
 
-/* Helper: generate unique label */
 static string unique_label(const string &base){
     stringstream ss;
     ss << base << "_" << label_count++;
     return ss.str();
 }
 
-/* Small helpers that return common stuff */
 static string push_D_to_stack(){
     string s;
     s += "@SP\n";
@@ -48,11 +45,8 @@ static string pop_stack_to_addr_in_R13(){
     return s;
 }
 
-VMTranslator::VMTranslator() {
-}
-
-VMTranslator::~VMTranslator() {
-}
+VMTranslator::VMTranslator() {}
+VMTranslator::~VMTranslator() {}
 
 string VMTranslator::vm_push(string segment, int offset){
     string out;
@@ -69,7 +63,7 @@ string VMTranslator::vm_push(string segment, int offset){
         out += "@" + to_string(offset) + "\n";
         out += "D=A\n";
         out += "@" + base + "\n";
-        out += "A=D+M\n";
+        out += "A=M+D\n";
         out += "D=M\n";
         out += push_D_to_stack();
     } else if(segment == "temp"){
@@ -104,7 +98,7 @@ string VMTranslator::vm_pop(string segment, int offset){
         out += "@" + to_string(offset) + "\n";
         out += "D=A\n";
         out += "@" + base + "\n";
-        out += "D=D+M\n";
+        out += "D=M+D\n";
         out += "@R13\n";
         out += "M=D\n";
         out += pop_stack_to_addr_in_R13();
@@ -131,11 +125,11 @@ string VMTranslator::vm_pop(string segment, int offset){
 
 string VMTranslator::vm_add(){
     string out;
-    out += pop_stack_to_D();     
+    out += pop_stack_to_D();
     out += "@SP\n";
     out += "M=M-1\n";
     out += "A=M\n";
-    out += "M=D+M\n";            
+    out += "M=M+D\n";
     out += "@SP\n";
     out += "M=M+1\n";
     return out;
@@ -143,11 +137,11 @@ string VMTranslator::vm_add(){
 
 string VMTranslator::vm_sub(){
     string out;
-    out += pop_stack_to_D();     
+    out += pop_stack_to_D();
     out += "@SP\n";
     out += "M=M-1\n";
     out += "A=M\n";
-    out += "M=M-D\n";            
+    out += "M=M-D\n";
     out += "@SP\n";
     out += "M=M+1\n";
     return out;
@@ -168,10 +162,11 @@ static string compare_template(const string &jump_cond){
     string lblTrue = unique_label("CMP_TRUE");
     string lblEnd  = unique_label("CMP_END");
     string out;
-    out += pop_stack_to_D();  
+    out += pop_stack_to_D();
+    out += "@SP\n";
     out += "M=M-1\n";
     out += "A=M\n";
-    out += "D=M-D\n";         
+    out += "D=M-D\n";
     out += "@" + lblTrue + "\n";
     out += "D;" + jump_cond + "\n";
     out += "@SP\n";
@@ -306,7 +301,6 @@ string VMTranslator::vm_call(string function_name, int n_args){
     return out;
 }
 
-
 string VMTranslator::vm_return(){
     string out;
     out += "@LCL\n";
@@ -314,7 +308,7 @@ string VMTranslator::vm_return(){
     out += "@R13\n";
     out += "M=D\n";
     out += "@5\n";
-    out += "A=D-A\n";   
+    out += "A=D-A\n";
     out += "D=M\n";
     out += "@R14\n";
     out += "M=D\n";
@@ -327,7 +321,7 @@ string VMTranslator::vm_return(){
     out += "@SP\n";
     out += "M=D\n";
     out += "@R13\n";
-    out += "AM=M-1\n";   
+    out += "AM=M-1\n";
     out += "D=M\n";
     out += "@THAT\n";
     out += "M=D\n";
