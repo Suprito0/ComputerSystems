@@ -4,37 +4,37 @@
 
 // Put your code here.
 
-push 0
-pop a
+push constant 0
+pop local 0
 
-push y
+push static 1
 push 1
 gt
 if-goto MULT
 
-push y
-push 0
+push static 1
+push constant 0
 eq
 if-goto END
 
-push x
-pop a
+push static 0
+pop local 0
 goto END
 
 label MULT
 
-push a
-push x
+push local 0
+push static 0
 add
-pop a
+pop local 0
 
-push y
+push static 1
 push 1 
 sub
-pop y
+pop static 1
 
-push y
-push 0
+push static 1
+push constant 0
 gt
 
 if-goto MULT
