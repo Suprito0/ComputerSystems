@@ -8,7 +8,7 @@ push constant 0
 pop local 0
 
 push static 1
-push 1
+push constant 1
 gt
 if-goto MULT
 
@@ -29,7 +29,7 @@ add
 pop local 0
 
 push static 1
-push 1 
+push constant 1
 sub
 pop static 1
 
