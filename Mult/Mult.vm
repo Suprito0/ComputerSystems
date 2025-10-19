@@ -1,37 +1,43 @@
-// Calculates a = x * y
+// Calculates a = x*y
 // a is a local variable
-// x and y are static variables
+// x & y are static variables
 
-// initialize a = 0
+// Put your code here.
+
 push constant 0
-pop local 0     // local 0 represents 'a'
+pop local 0
 
-// create a counter = y
-push static 1    // y
-pop local 1      // local 1 will act as 'counter'
+push static 1
+push constant 1
+gt
+if-goto MULT
 
-// label for loop
-label MULT_LOOP
-
-// if counter == 0, end loop
-push local 1
+push static 1
 push constant 0
 eq
 if-goto END
 
-// a = a + x
+push static 0
+pop local 0
+goto END
+
+label MULT
+
 push local 0
-push static 0    // x
+push static 0
 add
 pop local 0
 
-// counter = counter - 1
-push local 1
+push static 1
 push constant 1
 sub
-pop local 1
+pop static 1
 
-// repeat
-goto MULT_LOOP
+push static 1
+push constant 0
+gt
+
+if-goto MULT
 
 label END
+goto END
