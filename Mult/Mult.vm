@@ -1,80 +1,40 @@
-// Mult.vm
-// a = x * y
-// a -> local 0
-// x -> static 0
-// y -> static 1
+// Calculates a = x * y
+// a is a local variable
+// x and y are static variables
 
-// Initialize result
+// initialize a = 0
 push constant 0
-pop local 0      // a = 0
+pop local 0     // local 0 represents 'a'
 
-// Load x and y
-push static 0
-pop local 3      // x
-push static 1
-pop local 4      // y
+// create a counter = y
+push static 1    // y
+pop local 3      // local 3 will act as 'counter'
 
-// Determine sign
-push local 3
-push constant 0
-lt
-if-goto X_NEG
-goto X_POS
-label X_NEG
-neg
-pop local 3      // x = abs(x)
-push constant 1
-pop local 2      // sign = 1 if negative
-goto CHECK_Y
-label X_POS
-push constant 0
-pop local 2      // sign = 0
-
-label CHECK_Y
-push local 4
-push constant 0
-lt
-if-goto Y_NEG
-goto Y_POS
-label Y_NEG
-neg
-pop local 4      // y = abs(y)
-push local 2
-push constant 1
-add
-pop local 2      // flip sign if y negative
-label Y_POS
-
-// Loop multiplication
-push local 4
-pop local 1      // counter = abs(y)
+// label for loop
 label MULT_LOOP
-push local 1
+
+// if counter == 0, end loop
+push local 3
 push constant 0
 eq
-if-goto END_MULT
+if-goto END
 
+// a = a + x
 push local 0
-push local 3
+push static 0    // x
 add
-pop local 0      // a += x
+pop local 0
 
-push local 1
+// counter = counter - 1
+push local 3
 push constant 1
 sub
-pop local 1      // counter--
+pop local 3
+
+// repeat
 goto MULT_LOOP
 
-label END_MULT
-// Apply sign
-push local 2
-push constant 1
-eq
-if-goto NEG_RESULT
-goto END
-label NEG_RESULT
-push local 0
-neg
-pop local 0
+push con
+
 label END
 goto END
