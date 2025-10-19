@@ -1,0 +1,4 @@
+push constant 0
+not
+push constant 1
+not

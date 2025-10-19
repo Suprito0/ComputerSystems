@@ -1,0 +1,3 @@
+function Bar 0
+label A
+goto A

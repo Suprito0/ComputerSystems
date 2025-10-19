@@ -1,0 +1,6 @@
+push constant 111
+pop local 2
+push constant 222
+pop argument 4
+push constant 333
+pop temp 7

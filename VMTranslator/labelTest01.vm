@@ -1,0 +1,5 @@
+label START
+push constant 1
+label LOOP
+push constant 2
+label END

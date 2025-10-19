@@ -1,0 +1,4 @@
+function Foo 0
+label FooStart
+push constant 7
+label FooEnd

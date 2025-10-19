@@ -1,0 +1,6 @@
+push constant 1234
+pop pointer 0
+push constant 4321
+pop pointer 1
+push constant 999
+pop static 5

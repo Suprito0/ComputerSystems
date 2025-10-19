@@ -1,0 +1,3 @@
+push constant 0
+if-goto SKIP
+label SKIP

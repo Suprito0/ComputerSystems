@@ -1,0 +1,6 @@
+push constant 2
+push constant 7
+lt
+push constant 7
+push constant 2
+lt

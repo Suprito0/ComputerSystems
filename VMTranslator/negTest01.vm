@@ -1,0 +1,4 @@
+push constant 0
+neg
+push constant 15
+neg
