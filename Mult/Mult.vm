@@ -4,34 +4,49 @@
 
 // initialize a = 0
 push constant 0
-pop local 0     // local 0 represents 'a'
+pop local 0     // a = 0
 
-// create a counter = y
-push static 1    // y
-pop local 3      // local 3 will act as 'counter'
+// copy y to local 1 (counter)
+push static 1
+pop local 1
 
-// label for loop
+// check if y < 0
+push local 1
+push constant 0
+lt
+if-goto NEG_Y
+
+// if y >= 0, go to LOOP
+goto MULT_LOOP
+
+// handle negative y: make y positive and invert x
+label NEG_Y
+push static 0
+neg
+pop static 0          // x = -x
+push local 1
+neg
+pop local 1           // y = -y
+
+// main loop
 label MULT_LOOP
-
-// if counter == 0, end loop
-push local 3
+push local 1
 push constant 0
 eq
-if-goto END
+if-goto END           // if counter == 0 -> end
 
 // a = a + x
 push local 0
-push static 0    // x
+push static 0
 add
 pop local 0
 
 // counter = counter - 1
-push local 3
+push local 1
 push constant 1
 sub
-pop local 3
+pop local 1
 
-// repeat
 goto MULT_LOOP
 
 label END
