@@ -4,7 +4,40 @@
 
 // Put your code here.
 
+push 0
+pop a
 
+push y
+push 1
+gt
+if-goto MULT
+
+push y
+push 0
+eq
+if-goto END
+
+push x
+pop a
+goto END
+
+label MULT
+
+push a
+push x
+add
+pop a
+
+push y
+push 1 
+sub
+pop y
+
+push y
+push 0
+gt
+
+if-goto MULT
 
 label END
 goto END
