@@ -69,7 +69,7 @@ string VMTranslator::vm_push(string segment, int offset){
         out += "@" + to_string(offset) + "\n";
         out += "D=A\n";
         out += "@" + base + "\n";
-        out += "A=M+D\n";
+        out += "A=D+M\n";
         out += "D=M\n";
         out += push_D_to_stack();
     } else if(segment == "temp"){
@@ -104,7 +104,7 @@ string VMTranslator::vm_pop(string segment, int offset){
         out += "@" + to_string(offset) + "\n";
         out += "D=A\n";
         out += "@" + base + "\n";
-        out += "D=M+D\n";
+        out += "D=D+M\n";
         out += "@R13\n";
         out += "M=D\n";
         out += pop_stack_to_addr_in_R13();
@@ -135,7 +135,7 @@ string VMTranslator::vm_add(){
     out += "@SP\n";
     out += "M=M-1\n";
     out += "A=M\n";
-    out += "M=M+D\n";            
+    out += "M=D+M\n";            
     out += "@SP\n";
     out += "M=M+1\n";
     return out;
