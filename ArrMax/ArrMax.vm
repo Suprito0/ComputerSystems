@@ -1,8 +1,5 @@
-// File: ArrMax.vm
-// Function: ArrMax.arrMax(m, n)
-// Finds the maximum value in an array of length n,
-// where m is the base address (pointer to array).
-// Returns the largest element value.
+// Contains a function ArrMax.arrMax that finds and returns the largest element in the array a of length b.
+// a & b are both supplied as arguments
 
 function ArrMax.arrMax 2
 // local 0 -> current max

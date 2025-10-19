@@ -1,10 +1,5 @@
-// File: Fib.vm
-// Recursive Fibonacci: Fib.fib(n)
-// Base cases:
-//   Fib.fib(0) = 0
-//   Fib.fib(1) = 1
-// Recursive case:
-//   Fib.fib(n) = Fib.fib(n-1) + Fib.fib(n-2)
+// Contains a function Fib.fib that calculates and returns the nth Fibonacci number recursively
+// n is supplied as an argument
 
 function Fib.fib 0
 // if n < 2, return n

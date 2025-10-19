@@ -1,20 +1,20 @@
 // Calculates y = |x|
 // x & y are static variables
 
-push static 0
-push constant 0
-lt
-if-goto ABS_NEG
+push static 0       // push x
+push constant 0     // push 0
+lt                 
+if-goto ABS_NEG    
 
 // y = x
-push static 0
-pop static 1
+push static 0       // push x
+pop static 1        // push y
 goto ABS_DONE
 
 label ABS_NEG
-push static 0
+push static 0       // push x
 neg
-pop static 1
+pop static 1        // pop y
 
 label ABS_DONE
 
