@@ -13,7 +13,14 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileProgram() {
-    return NULL;
+    // Program := Class (wrapped in a "program" node so it's easy to extend)
+    ParseTree* program = new ParseTree("program", "");
+
+    ParseTree* klass = compileClass();
+    if (klass != nullptr) {
+        program->addChild(klass);
+    }
+    return program;
 }
 
 /**
@@ -21,7 +28,45 @@ ParseTree* CompilerParser::compileProgram() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClass() {
-    return NULL;
+    // class: 'class' className '{' {classVarDec} {subroutineDec} '}'
+    ParseTree* node = new ParseTree("class", "");
+
+    // 'class'
+    if (Token* t = mustBe("keyword", "class")) {
+        node->addChild(t);
+    }
+
+    // className (identifier) — empty expectedValue means "any identifier"
+    if (Token* t = mustBe("identifier", "")) {
+        node->addChild(t);
+    }
+
+    // '{'
+    if (Token* t = mustBe("symbol", "{")) {
+        node->addChild(t);
+    }
+
+    // { ('static' | 'field') classVarDec }
+    while (have("keyword", "static") || have("keyword", "field")) {
+        if (ParseTree* dec = compileClassVarDec()) {
+            node->addChild(dec);
+        }
+    }
+
+    // { ('constructor' | 'function' | 'method') subroutineDec }
+    while (have("keyword", "constructor") ||
+           have("keyword", "function")    ||
+           have("keyword", "method")) {
+        if (ParseTree* sub = compileSubroutine()) {
+            node->addChild(sub);
+        }
+    }
+
+    // '}'
+    if (Token* t = mustBe("symbol", "}")) {
+        node->addChild(t);
+    }
+    return node;
 }
 
 /**
