@@ -13,6 +13,10 @@ ParseTree* CompilerParser::compileProgram() {
     return compileClass();
 }
 
+/**
+ * Generates a parse tree for a single class
+ * @return a ParseTree
+ */
 ParseTree* CompilerParser::compileClass() {
     // class className '{' classVarDec* subroutine* '}'
     ParseTree* node = new ParseTree("class", "");
@@ -41,13 +45,6 @@ ParseTree* CompilerParser::compileClass() {
     // '}'
     node->addChild((ParseTree*) mustBe("symbol", "}"));
     return node;
-}
-
-/**
- * Generates a parse tree for a single class
- * @return a ParseTree
- */
-ParseTree* CompilerParser::compileClass() {
 }
 
 /**
