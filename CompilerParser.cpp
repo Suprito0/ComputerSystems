@@ -5,22 +5,47 @@
  * Constructor for the CompilerParser
  * @param tokens A linked list of tokens to be parsed
  */
-CompilerParser::CompilerParser(std::list<Token*> tokens) {
+ParseTree* CompilerParser::compileProgram() {
+    // program := class
+    // The program must begin with a 'class' keyword; otherwise it's a parse error.
+    if (!have("keyword", "class")) {
+        throw ParseException();
+    }
+    // Delegate to compileClass(), which consumes the whole class and returns its tree.
+    return compileClass();
 }
 
-/**
- * Generates a parse tree for a single program
- * @return a ParseTree
- */
-ParseTree* CompilerParser::compileProgram() {
-    // Program := Class (wrapped in a "program" node so it's easy to extend)
-    ParseTree* program = new ParseTree("program", "");
+ParseTree* CompilerParser::compileClass() {
+    // class className '{' classVarDec* subroutine* '}'
+    // Build the root node for this non-terminal.
+    ParseTree* node = new ParseTree("class", "");
 
-    ParseTree* klass = compileClass();
-    if (klass != nullptr) {
-        program->addChild(klass);
+    // 'class'
+    node->addChild((ParseTree*) mustBe("keyword", "class"));
+
+    // className (identifier)
+    // Empty string for value means "any value" of that type (identifier here).
+    node->addChild((ParseTree*) mustBe("identifier", ""));
+
+    // '{'
+    node->addChild((ParseTree*) mustBe("symbol", "{"));
+
+    // Zero or more class variable declarations: ('static' | 'field') ...
+    while (have("keyword", "static") || have("keyword", "field")) {
+        node->addChild(compileClassVarDec());
     }
-    return program;
+
+    // Zero or more subroutines: ('constructor' | 'function' | 'method') ...
+    while (have("keyword", "constructor") ||
+           have("keyword", "function")   ||
+           have("keyword", "method")) {
+        node->addChild(compileSubroutine());
+    }
+
+    // '}'
+    node->addChild((ParseTree*) mustBe("symbol", "}"));
+
+    return node;
 }
 
 /**
@@ -28,45 +53,6 @@ ParseTree* CompilerParser::compileProgram() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClass() {
-    // class: 'class' className '{' {classVarDec} {subroutineDec} '}'
-    ParseTree* node = new ParseTree("class", "");
-
-    // 'class'
-    if (Token* t = mustBe("keyword", "class")) {
-        node->addChild(t);
-    }
-
-    // className (identifier) — empty expectedValue means "any identifier"
-    if (Token* t = mustBe("identifier", "")) {
-        node->addChild(t);
-    }
-
-    // '{'
-    if (Token* t = mustBe("symbol", "{")) {
-        node->addChild(t);
-    }
-
-    // { ('static' | 'field') classVarDec }
-    while (have("keyword", "static") || have("keyword", "field")) {
-        if (ParseTree* dec = compileClassVarDec()) {
-            node->addChild(dec);
-        }
-    }
-
-    // { ('constructor' | 'function' | 'method') subroutineDec }
-    while (have("keyword", "constructor") ||
-           have("keyword", "function")    ||
-           have("keyword", "method")) {
-        if (ParseTree* sub = compileSubroutine()) {
-            node->addChild(sub);
-        }
-    }
-
-    // '}'
-    if (Token* t = mustBe("symbol", "}")) {
-        node->addChild(t);
-    }
-    return node;
 }
 
 /**
