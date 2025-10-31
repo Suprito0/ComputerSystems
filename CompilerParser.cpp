@@ -7,35 +7,31 @@
  */
 ParseTree* CompilerParser::compileProgram() {
     // program := class
-    // The program must begin with a 'class' keyword; otherwise it's a parse error.
     if (!have("keyword", "class")) {
         throw ParseException();
     }
-    // Delegate to compileClass(), which consumes the whole class and returns its tree.
     return compileClass();
 }
 
 ParseTree* CompilerParser::compileClass() {
     // class className '{' classVarDec* subroutine* '}'
-    // Build the root node for this non-terminal.
     ParseTree* node = new ParseTree("class", "");
 
-    // 'class'
+    // 'class' keyword
     node->addChild((ParseTree*) mustBe("keyword", "class"));
 
     // className (identifier)
-    // Empty string for value means "any value" of that type (identifier here).
     node->addChild((ParseTree*) mustBe("identifier", ""));
 
     // '{'
     node->addChild((ParseTree*) mustBe("symbol", "{"));
 
-    // Zero or more class variable declarations: ('static' | 'field') ...
+    // zero or more class var declarations
     while (have("keyword", "static") || have("keyword", "field")) {
         node->addChild(compileClassVarDec());
     }
 
-    // Zero or more subroutines: ('constructor' | 'function' | 'method') ...
+    // zero or more subroutines
     while (have("keyword", "constructor") ||
            have("keyword", "function")   ||
            have("keyword", "method")) {
@@ -44,7 +40,6 @@ ParseTree* CompilerParser::compileClass() {
 
     // '}'
     node->addChild((ParseTree*) mustBe("symbol", "}"));
-
     return node;
 }
 
