@@ -2,6 +2,7 @@
 #define COMPILERPARSER_H
 
 #include <list>
+#include <string>
 #include <exception>
 
 #include "ParseTree.h"
@@ -29,11 +30,23 @@ class CompilerParser {
         ParseTree* compileExpression();
         ParseTree* compileTerm();
         ParseTree* compileExpressionList();
-        
-        void next();
+
+        void   next();
         Token* current();
-        bool have(std::string expectedType, std::string expectedValue);
+        bool   have(std::string expectedType, std::string expectedValue);
         Token* mustBe(std::string expectedType, std::string expectedValue);
+
+    private:
+        std::list<Token*> tokens;
+        std::list<Token*>::iterator current_it;
+
+        Token* mustBeIdentifier();
+        Token* parseType();
+        ParseTree* compileSubroutineCall();
+        Token* peekNext();
+
+        bool isReservedKeyword(const std::string& value);
+        bool isOpSymbol(const std::string& value);
 };
 
 class ParseException : public std::exception {
